@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>健康知識測驗</title>
+<style>
+body{
+    font-family: Arial;
+    background:#e8f5e9;
+    text-align:center;
+    padding:30px;
+}
+
+.container{
+    background:white;
+    max-width:500px;
+    margin:auto;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+h1{
+    color:#2e7d32;
+}
+
+button{
+    display:block;
+    margin:10px auto;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#66bb6a;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#43a047;
+}
+
+#result{
+    font-size:18px;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>健康知識測驗 🧠</h1>
+
+<div id="quiz"></div>
+
+<div id="result"></div>
+
+<button onclick="restartQuiz()">重新開始</button>
+
+</div>
+
+<script>
+
+const quizData = [
+{
+question:"成年人每天建議睡眠時間為？",
+options:["4-5小時","6-8小時","10-12小時","3小時"],
+answer:1
+},
+{
+question:"每天建議至少喝多少水？",
+options:["500ml","1000ml","2000ml","300ml"],
+answer:2
+},
+{
+question:"以下哪個屬於有氧運動？",
+options:["散步","舉重","伸展","坐著"],
+answer:0
+},
+{
+question:"均衡飲食應包含哪些？",
+options:["只吃肉","只吃水果","六大類食物","只吃澱粉"],
+answer:2
+},
+{
+question:"長時間使用電腦應多久休息一次？",
+options:["10分鐘","30分鐘","1小時","3小時"],
+answer:1
+}
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuiz(){
+
+const quiz = document.getElementById("quiz");
+quiz.innerHTML="";
+
+if(currentQuestion >= quizData.length){
+
+quiz.innerHTML = `<h2>測驗完成 🎉</h2>
+<p>你的分數：${score} / ${quizData.length}</p>`;
+
+return;
+}
+
+let q = quizData[currentQuestion];
+
+let html = `<h3>${q.question}</h3>`;
+
+q.options.forEach((option,index)=>{
+html += `<button onclick="checkAnswer(${index})">${option}</button>`;
+});
+
+quiz.innerHTML = html;
+}
+
+function checkAnswer(index){
+
+if(index === quizData[currentQuestion].answer){
+score++;
+document.getElementById("result").innerText="✅ 正確！";
+}else{
+document.getElementById("result").innerText="❌ 錯誤！";
+}
+
+currentQuestion++;
+
+setTimeout(()=>{
+document.getElementById("result").innerText="";
+loadQuiz();
+},800);
+}
+
+function restartQuiz(){
+currentQuestion=0;
+score=0;
+loadQuiz();
+}
+
+loadQuiz();
+
+</script>
+
+</body>
+</html>
